@@ -21,20 +21,20 @@ struct SortingAnalytics{
   }
 
   void printAnalytics(){
-    cout << setprecision(10) << '\n' << fixed;
+    cout << setprecision(6) << '\n' << fixed;
     cout << "Analytics for " << algorithmName << ": \n";
     cout << "Comparsions : " << comparsions << '\n';
     cout << "Movements : " << movements << '\n';
-    cout << "Time : " << (double)time << '\n';
+    cout << "Time : " << (double)time << " s\n";
   }
 };
 
 struct Sorting{
 private:
   int size;
-  vector<int> currentArray;
+  vector<int> vec;
 
-  void _merge(SortingAnalytics* analytics, int start, int middle, int end){
+  void _merge(SortingAnalytics* analytics, vector<int> &v,int start, int middle, int end){
     int i, j, k, *w = (int*) malloc(sizeof(int)*(end-start));
     i = start;
     j = middle;
@@ -45,11 +45,11 @@ private:
       analytics->comparsions++;
       analytics->movements++;
 
-      if (currentArray[i] < currentArray[j]) {
-        w[k] = currentArray[i];
+      if (v[i] < v[j]) {
+        w[k] = v[i];
         i++;
       }else{
-        w[k] = currentArray[j];
+        w[k] = v[j];
         j++;
       }
 
@@ -60,60 +60,114 @@ private:
 
     while (i < middle) {
       analytics->movements++;
-      w[k] = currentArray[i];
+      w[k] = v[i];
       i++;
       k++;
     }
 
     while (j < end) {
       analytics->movements++;
-      w[k] = currentArray[j];
+      w[k] = v[j];
       j++;
       k++;
     }
 
     for (i = start; i < end; i++){
       analytics->movements++;
-      currentArray[i] = w[i-start];
+      v[i] = w[i-start];
     }
 
 
     free(w);
   }
 
-  void _mergesort (SortingAnalytics* analytics ,int start, int end){
+  void _mergesort (SortingAnalytics* analytics,vector<int> &v ,int start, int end){
     if (start < end-1) {
       int middle = (start + end)/2;
-      _mergesort (analytics,start, middle);
-      _mergesort (analytics, middle, end);
-      _merge (analytics,start, middle, end);
+      _mergesort (analytics,v,start, middle);
+      _mergesort (analytics,v, middle, end);
+      _merge (analytics, v,start, middle, end);
     }
   }
 
 
-  void _quickSort(SortingAnalytics* analytics ,int start,int end){
+  void _quickSort(SortingAnalytics* analytics ,vector<int> &v ,int start,int end){
     int i,j,aux,eixo;
     if(end>start){
       i = start;
       j = end;
-      eixo = currentArray[(end+start)/2];
+      eixo = v[(end+start)/2];
 
       while(i<=j){
 
-        while(currentArray[i] < eixo) {i++;analytics->comparsions++;}
-        while(currentArray[j] > eixo) {j--;analytics->comparsions++;}
+        while(v[i] < eixo) {i++;analytics->comparsions++;}
+        while(v[j] > eixo) {j--;analytics->comparsions++;}
 
         if(i<=j){
-          aux = currentArray[i];
-          currentArray[i] = currentArray[j];
-          currentArray[j] = aux;
+          aux = v[i];
+          v[i] = v[j];
+          v[j] = aux;
           i++;j--;
           analytics->movements++;
         }
       }
-      _quickSort(analytics,i,end);
-      _quickSort(analytics,start,j);
+      _quickSort(analytics,v,i,end);
+      _quickSort(analytics,v,start,j);
     }
+  }
+
+  void _insertionSort(SortingAnalytics* analytics, vector<int> &v) {
+    int i,j;
+    int  pivot;
+
+    for(i = 1; i < size ; i++)  {
+      pivot = v[i];
+      j = i-1;
+      while((j >=0) && (v[j] > pivot)) {
+        analytics->movements++;
+        analytics->comparsions++;
+        v[j+1] = v[j];
+        j--;
+      }
+      analytics->movements++;
+      v[j+1] = pivot;
+    }
+  }
+
+  void _selectionSort(SortingAnalytics* analytics, vector<int> &v){
+    for(int ind=0;ind<size;ind++){
+      int next=ind;
+
+      for(int i=ind;i<size;i++){
+        analytics->comparsions++;
+        if(v[next] > v[i]){
+          next = i;
+        }
+      }
+
+      analytics->movements++;
+      int aux = v[next];
+      v[next] = v[ind];
+      v[ind] = aux;
+    }
+
+  }
+
+  void _bubbleSort(SortingAnalytics *analytics, vector<int> &v){
+    bool changed;
+    do{
+      changed = false;
+      for(int i=0; i< size-1;i++){
+        analytics->comparsions++;
+        if (v[ i ] > v[ i + 1 ]){
+          analytics->movements++;
+          int backup = v[ i ];
+          v[i] = v[i + 1];
+          v[i+1] = backup;
+          changed = true;
+        }
+      }
+    }while(changed);
   }
 
 public:
@@ -121,8 +175,10 @@ public:
   SortingAnalytics* quickSort(){
     SortingAnalytics* analytics = new SortingAnalytics("Quick Sort");
 
+    vector<int> vect2(vec);
+
     clock_t start = clock();
-    _quickSort(analytics, 0, size);
+    _quickSort(analytics, vect2,0, size);
     clock_t end = clock();
 
     analytics->time = (double)(end - start)/CLOCKS_PER_SEC;
@@ -133,8 +189,10 @@ public:
   SortingAnalytics* mergeSort(){
     SortingAnalytics* analytics = new SortingAnalytics("Merge Sort");
 
+    vector<int> vect2(vec);
+
     clock_t start = clock();
-    _mergesort(analytics, 0, size);
+    _mergesort(analytics,vect2, 0, size);
     clock_t end = clock();
 
     analytics->time = (double)(end - start)/CLOCKS_PER_SEC;
@@ -143,19 +201,55 @@ public:
     return analytics;
   }
 
+  SortingAnalytics* insertionSort(){
+    SortingAnalytics* analytics = new SortingAnalytics("Insertion Sort");
+
+    vector<int> vect2(vec);
+
+    clock_t start = clock();
+    _insertionSort(analytics,vect2);
+    clock_t end = clock();
+
+    analytics->time = (double)(end - start)/CLOCKS_PER_SEC;
+
+
+    return analytics;
+  }
+
+  SortingAnalytics* selectionSort(){
+    SortingAnalytics* analytics = new SortingAnalytics("Selection Sort");
+
+    vector<int> vect2(vec);
+
+    clock_t start = clock();
+    _selectionSort(analytics,vect2);
+    clock_t end = clock();
+
+    analytics->time = (double)(end - start)/CLOCKS_PER_SEC;
+
+    return analytics;
+  }
+
+  SortingAnalytics* bubbleSort(){
+    SortingAnalytics* analytics = new SortingAnalytics("Bubble Sort");
+
+    vector<int> vect2(vec);
+
+    clock_t start = clock();
+    _bubbleSort(analytics,vect2);
+    clock_t end = clock();
+
+    analytics->time = (double)(end - start)/CLOCKS_PER_SEC;
+
+    return analytics;
+  }
 
   Sorting(int arraySize){
     size = arraySize;
-    currentArray.reserve(size);
+    vec.reserve(size);
     srand( (unsigned)time(NULL) );
     for(int i=0;i < size;i++){
-      currentArray[i] = (rand() % INT_MAX);
-    }
-  }
-
-  void printArray(){
-    for(int i=0;i < size;i++){
-      cout << currentArray[i] << ',';
+      vec.push_back((rand() % INT_MAX));
     }
   }
 };
