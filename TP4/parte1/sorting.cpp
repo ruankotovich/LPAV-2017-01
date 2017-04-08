@@ -146,10 +146,13 @@ private:
         }
       }
 
-      analytics->movements++;
-      int aux = v[next];
-      v[next] = v[ind];
-      v[ind] = aux;
+      if(next != ind){
+        analytics->movements++;
+        int aux = v[next];
+        v[next] = v[ind];
+        v[ind] = aux;
+      }
+
     }
 
   }

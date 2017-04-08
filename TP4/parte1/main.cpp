@@ -86,7 +86,7 @@ void printTrades(map<AlgorithmType, map<int, SortingAnalytics*> > &testMap, list
 
 void printTime(map<AlgorithmType, map<int, SortingAnalytics*> > &testMap, list<int> &instancesLength, list<AlgorithmType> &appearenceOrder){
 
-  cout << "<tr><td rowspan='6'>Número de Trocas</td>\n";
+  cout << "<tr><td rowspan='6'>Tempo</td>\n";
 
   int count = 0;
   cout << setprecision(6) << '\n' << fixed;
@@ -122,7 +122,7 @@ void printTable(map<AlgorithmType, map<int, SortingAnalytics*> > &testMap, list<
 
   std::strftime(date,80,"%d/%m/%Y -%H:%M:%S",timeinfo);
 
-  cout << "<html>\n<head><meta charset='UTF-8'><title>Sorting Algorithm Test - "<< date<<"</title></head>\n<body>\n<table>\n<tr><td colspan='2' style='border:0px'></td><td colspan='6'><center>Aleatórios</center></td></tr>\n<tr><td>**Métrica**</td><td>**Algoritmo**</td>";
+  cout << "<html>\n<head><meta charset='UTF-8'><title>Sorting Algorithm Test - "<< date<<"</title></head>\n<body>\n<center><table border='1' style='text-align:center;vertical-align:middle;'>\n<tr><td colspan='2' style='border:0px'></td><td colspan='6'><center>Aleatórios</center></td></tr>\n<tr><td>**Métrica**</td><td>**Algoritmo**</td>";
 
   for(int nextLength : instancesLength){
     cout << "<td> **" << nextLength << "** </td>";
@@ -134,7 +134,7 @@ void printTable(map<AlgorithmType, map<int, SortingAnalytics*> > &testMap, list<
   printTrades(testMap, instancesLength, appearenceOrder);
   printTime(testMap, instancesLength, appearenceOrder);
 
-  cout << "</body>\n</table>\n";
+  cout << "</table></center>\n</body>\n";
 }
 
 int main(int argc, char** argv){
