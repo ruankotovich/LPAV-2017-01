@@ -212,7 +212,10 @@ public:
   SortingAnalytics* heapSort(){
     SortingAnalytics* analytics = new SortingAnalytics("Heap Sort");
 
-    vector<int> vect2(vec);
+    vector<int> vect2;
+    for(int v:vec){
+      vect2.push_back(v);
+    }
 
     clock_t start = clock();
     _heapSort(analytics, vect2, size);
@@ -226,21 +229,26 @@ public:
   SortingAnalytics* quickSort(){
     SortingAnalytics* analytics = new SortingAnalytics("Quick Sort");
 
-    vector<int> vect2(vec);
+    vector<int> vect2;
+    for(int v:vec){
+      vect2.push_back(v);
+    }
 
     clock_t start = clock();
     _quickSort(analytics, vect2,0, size);
     clock_t end = clock();
 
     analytics->time = (double)(end - start)/CLOCKS_PER_SEC;
-
     return analytics;
   }
 
   SortingAnalytics* mergeSort(){
     SortingAnalytics* analytics = new SortingAnalytics("Merge Sort");
 
-    vector<int> vect2(vec);
+    vector<int> vect2;
+    for(int v:vec){
+      vect2.push_back(v);
+    }
 
     clock_t start = clock();
     _mergesort(analytics,vect2, 0, size);
@@ -255,7 +263,10 @@ public:
   SortingAnalytics* insertionSort(){
     SortingAnalytics* analytics = new SortingAnalytics("Insertion Sort");
 
-    vector<int> vect2(vec);
+    vector<int> vect2;
+    for(int v:vec){
+      vect2.push_back(v);
+    }
 
     clock_t start = clock();
     _insertionSort(analytics,vect2);
@@ -270,7 +281,10 @@ public:
   SortingAnalytics* selectionSort(){
     SortingAnalytics* analytics = new SortingAnalytics("Selection Sort");
 
-    vector<int> vect2(vec);
+    vector<int> vect2;
+    for(int v:vec){
+      vect2.push_back(v);
+    }
 
     clock_t start = clock();
     _selectionSort(analytics,vect2);
@@ -284,8 +298,10 @@ public:
   SortingAnalytics* bubbleSort(){
     SortingAnalytics* analytics = new SortingAnalytics("Bubble Sort");
 
-    vector<int> vect2(vec);
-
+    vector<int> vect2;
+    for(int v:vec){
+      vect2.push_back(v);
+    }
     clock_t start = clock();
     _bubbleSort(analytics,vect2);
     clock_t end = clock();
