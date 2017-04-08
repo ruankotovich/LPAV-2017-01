@@ -5,6 +5,8 @@
 #include <ctime>
 #include <iomanip>
 #include <algorithm>
+#include <unistd.h>
+#include <sys/time.h>
 
 using namespace std;
 
@@ -220,11 +222,13 @@ public:
       vect2.push_back(v);
     }
 
-    clock_t start = clock();
-    _heapSort(analytics, vect2, size);
-    clock_t end = clock();
+    struct timeval antes, depois ;
 
-    analytics->time = (double)(end - start)/CLOCKS_PER_SEC;
+    gettimeofday (&antes, 0) ;
+    _heapSort(analytics, vect2, size);
+    gettimeofday(&depois, 0);
+
+    analytics->time = (depois.tv_sec + depois.tv_usec/1000000.0) -(antes.tv_sec  + antes.tv_usec /1000000.0) ;
 
     return analytics;
   }
@@ -237,11 +241,13 @@ public:
       vect2.push_back(v);
     }
 
-    clock_t start = clock();
-    _quickSort(analytics, vect2,0, size);
-    clock_t end = clock();
+    struct timeval antes, depois ;
 
-    analytics->time = (double)(end - start)/CLOCKS_PER_SEC;
+    gettimeofday (&antes, 0) ;
+    _quickSort(analytics, vect2,0, size);
+    gettimeofday(&depois, 0);
+
+    analytics->time = (depois.tv_sec + depois.tv_usec/1000000.0) -(antes.tv_sec  + antes.tv_usec /1000000.0) ;
     return analytics;
   }
 
@@ -253,12 +259,13 @@ public:
       vect2.push_back(v);
     }
 
-    clock_t start = clock();
+    struct timeval antes, depois ;
+
+    gettimeofday (&antes, 0) ;
     _mergesort(analytics,vect2, 0, size);
-    clock_t end = clock();
+    gettimeofday(&depois, 0);
 
-    analytics->time = (double)(end - start)/CLOCKS_PER_SEC;
-
+    analytics->time = (depois.tv_sec + depois.tv_usec/1000000.0) -(antes.tv_sec  + antes.tv_usec /1000000.0) ;
 
     return analytics;
   }
@@ -271,11 +278,13 @@ public:
       vect2.push_back(v);
     }
 
-    clock_t start = clock();
-    _insertionSort(analytics,vect2);
-    clock_t end = clock();
+    struct timeval antes, depois ;
 
-    analytics->time = (double)(end - start)/CLOCKS_PER_SEC;
+    gettimeofday (&antes, 0) ;
+    _insertionSort(analytics,vect2);
+    gettimeofday(&depois, 0);
+
+    analytics->time = (depois.tv_sec + depois.tv_usec/1000000.0) -(antes.tv_sec  + antes.tv_usec /1000000.0) ;
 
 
     return analytics;
@@ -289,11 +298,13 @@ public:
       vect2.push_back(v);
     }
 
-    clock_t start = clock();
-    _selectionSort(analytics,vect2);
-    clock_t end = clock();
+    struct timeval antes, depois ;
 
-    analytics->time = (double)(end - start)/CLOCKS_PER_SEC;
+    gettimeofday (&antes, 0) ;
+    _selectionSort(analytics,vect2);
+    gettimeofday(&depois, 0);
+
+    analytics->time = (depois.tv_sec + depois.tv_usec/1000000.0) -(antes.tv_sec  + antes.tv_usec /1000000.0) ;
 
     return analytics;
   }
@@ -305,11 +316,14 @@ public:
     for(int v:vec){
       vect2.push_back(v);
     }
-    clock_t start = clock();
-    _bubbleSort(analytics,vect2);
-    clock_t end = clock();
 
-    analytics->time = (double)(end - start)/CLOCKS_PER_SEC;
+    struct timeval antes, depois ;
+
+    gettimeofday (&antes, 0) ;
+    _bubbleSort(analytics,vect2);
+    gettimeofday(&depois, 0);
+
+    analytics->time = (depois.tv_sec + depois.tv_usec/1000000.0) -(antes.tv_sec  + antes.tv_usec /1000000.0) ;
 
     return analytics;
   }
