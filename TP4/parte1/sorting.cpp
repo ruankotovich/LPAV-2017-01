@@ -4,6 +4,7 @@
 #include <climits>
 #include <ctime>
 #include <iomanip>
+#include <algorithm>
 
 using namespace std;
 
@@ -170,7 +171,57 @@ private:
     }while(changed);
   }
 
+
+  void _makeHeap(SortingAnalytics *analytics, vector<int> &v, int i, int N){
+    while ( (i<<1) + 1 < N ) {
+      int son = (i<<1) + 1;
+
+      if ((son + 1 < N) && (v[son] < v[son+1])){ son++; analytics->comparsions++;}
+
+      if (v[i] < v[son]) {
+        analytics->comparsions++;
+        analytics->movements++;
+        int backup = v[son];
+        v[son] = v[i];
+        v[i] = backup;
+        i = son;
+      }
+      else
+      return;
+    }
+  }
+
+  void _heapSort(SortingAnalytics *analytics, vector<int> &v, int sLen){
+    for (int k = sLen>>1; k >= 0; k--) {
+      _makeHeap(analytics,v, k, sLen);
+    }
+
+    while (sLen > 1) {
+      analytics->movements++;
+      int backup = v[sLen-1];
+      v[sLen-1] = v[0];
+      v[0] = backup;
+      _makeHeap(analytics,v, 0, sLen-1);
+      sLen--;
+    }
+  }
+
 public:
+
+
+  SortingAnalytics* heapSort(){
+    SortingAnalytics* analytics = new SortingAnalytics("Heap Sort");
+
+    vector<int> vect2(vec);
+
+    clock_t start = clock();
+    _heapSort(analytics, vect2, size);
+    clock_t end = clock();
+
+    analytics->time = (double)(end - start)/CLOCKS_PER_SEC;
+
+    return analytics;
+  }
 
   SortingAnalytics* quickSort(){
     SortingAnalytics* analytics = new SortingAnalytics("Quick Sort");

@@ -1,8 +1,13 @@
 #include "sorting.cpp"
 
 int main(){
-  Sorting *sorting = new Sorting(10000);
+  Sorting *sorting = new Sorting(100000);
   SortingAnalytics * current;
+
+  current = sorting->heapSort();
+  current->printAnalytics();
+  delete(current);
+
 
   current = sorting->quickSort();
   current->printAnalytics();
