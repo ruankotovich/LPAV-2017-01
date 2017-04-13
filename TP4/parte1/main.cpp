@@ -134,7 +134,7 @@ void printTable(map<AlgorithmType, map<int, SortingAnalytics*> > &testMap, list<
   printTrades(testMap, instancesLength, appearenceOrder);
   printTime(testMap, instancesLength, appearenceOrder);
 
-  cout << "</table></center>\n</body>\n";
+  cout << "</table></center>\n</body></html>\n";
 }
 
 int main(int argc, char** argv){
