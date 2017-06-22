@@ -1,0 +1,86 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include <time.h>
+
+#define null NULL
+
+pthread_mutex_t sumLock = PTHREAD_MUTEX_INITIALIZER;
+int sum = 0;
+int *vk;
+
+typedef struct boundary_t{
+  pthread_t thread;
+  int state;
+  int startPosition;
+  int endPosition;
+}Boundary_t;
+
+void* sumThread(void* bd){
+  Boundary_t *boundary = (Boundary_t*)bd;
+
+  for(int i = boundary->startPosition; i <= boundary->endPosition; ++i){
+    pthread_mutex_lock(&sumLock);
+    sum += vk[i];
+    pthread_mutex_unlock(&sumLock);
+  }
+
+  return null;
+}
+
+void buildVector(int **vector, int length){
+  (*vector) = malloc(sizeof(int)*length);
+  do{
+    length--;
+    (*vector)[length] = rand() % 100;
+  }while(length>=0);
+}
+
+void buildBoundaries(Boundary_t **tVector, int numThreads, int length){
+  const int pass = length / numThreads;
+  (*tVector) = malloc(sizeof(Boundary_t)*numThreads);
+
+  for(int i=0; i < numThreads ; i++){
+    (*tVector)[i].startPosition = i*(pass);
+    (*tVector)[i].endPosition = ((*tVector)[i].startPosition+pass)-1;
+  }
+
+  (*tVector)[numThreads-1].endPosition = (length-1);
+
+}
+
+int main(int argc, char *argv[]){
+  int length = atoi(argv[1]);
+  int threads = atoi(argv[2]);
+  int threshold = atoi(argv[3]);
+
+  int *vector = null;
+  double sumptr = 0;
+  Boundary_t *threadVector = null;
+
+  srand(time(null));
+
+  buildVector(&vector, length);
+  buildBoundaries(&threadVector, threads, length);
+
+  vk = vector;
+
+  for(int i=0; i < threshold; i++){
+
+    clock_t ping = clock();
+
+    for(int i=0;i<threads;i++){
+      threadVector[i].state = pthread_create(&threadVector[i].thread, NULL, sumThread, &threadVector[i]);
+    }
+    
+    for(int i=0;i<threads;i++){
+      pthread_join(threadVector[i].thread, null);
+    }
+
+    clock_t pong = clock();
+
+    sumptr += ((double)(pong-ping));
+  }
+
+  printf("%.6lf ", (sumptr/(threshold*CLOCKS_PER_SEC)));
+}

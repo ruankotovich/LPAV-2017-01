@@ -127,7 +127,7 @@ void printTable(map<AlgorithmType, map<int, SortingAnalytics*> > &testMap, list<
   for(int nextLength : instancesLength){
     cout << "<td> **" << nextLength << "** </td>";
   }
-
+  
   cout << "</tr>\n\n";
 
   printComparisons(testMap, instancesLength, appearenceOrder);
