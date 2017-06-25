@@ -30,7 +30,7 @@ void buildVector(int **vector, int length){
   (*vector) = malloc(sizeof(int)*length);
   do{
     length--;
-    (*vector)[length] = 1;//rand() % 100;
+    (*vector)[length] = rand() % 100;
   }while(length>=0);
 }
 
@@ -95,5 +95,5 @@ int main(int argc, char *argv[]){
     sumptr += ((double)(pong-ping));
   }
 
-  printf("%.6lf ", (sumptr/(threshold*CLOCKS_PER_SEC)));
+  printf("%.6lf;", (sumptr/(threshold*CLOCKS_PER_SEC)));
 }

@@ -96,5 +96,5 @@ int main(int argc, char *argv[]){
     sumptr += ((double)(pong-ping));
   }
 
-  printf("%.6lf ", (sumptr/(threshold*CLOCKS_PER_SEC)));
+  printf("%.6lf;", (sumptr/(threshold*CLOCKS_PER_SEC)));
 }

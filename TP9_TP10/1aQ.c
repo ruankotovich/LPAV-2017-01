@@ -72,7 +72,7 @@ int main(int argc, char *argv[]){
     for(int i=0;i<threads;i++){
       threadVector[i].state = pthread_create(&threadVector[i].thread, NULL, sumThread, &threadVector[i]);
     }
-    
+
     for(int i=0;i<threads;i++){
       pthread_join(threadVector[i].thread, null);
     }
@@ -82,5 +82,5 @@ int main(int argc, char *argv[]){
     sumptr += ((double)(pong-ping));
   }
 
-  printf("%.6lf ", (sumptr/(threshold*CLOCKS_PER_SEC)));
+  printf("%.6lf;", (sumptr/(threshold*CLOCKS_PER_SEC)));
 }

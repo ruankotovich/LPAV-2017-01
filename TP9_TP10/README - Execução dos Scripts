@@ -1,0 +1,21 @@
+O script xperform.sh executa as questões 1, 2 e 3
+	
+	Parâmetros
+	$1 - nome do arquivo (ex : 1aQ.c)
+	$2 - thresold de execução, relativo ao número de execuções (requerido 3 pelo exercício)
+	
+	Exemplo de execução
+	./xperform.sh 1aQ.c 3    -> irá executar todos os parâmetros requeridos para a questão
+	
+	
+O script xdecay.sh executa as questões 5 e 6
+
+	Parâmetros
+	$1 - nome do arquivo (ex : 5aQ.c)
+	$2 - thresold de execução, relativo ao número de execuções (requerido 3 pelo exercício)
+	
+	Exemplo de execução
+	./xdecay.sh 5aQ.c 3    -> irá executar todos os parâmetros requeridos para a questão
+	
+	
+Ambos os scripts geram o executável `cheeki`, um compilado do arquivo passado como parâmetro 1 com otimização -O2

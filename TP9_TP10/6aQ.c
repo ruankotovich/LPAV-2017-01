@@ -30,7 +30,7 @@ void* quickSort(void* q){
   int inicio = ((QuicksortParamethers_t*)q)->inicio;
   int fim = ((QuicksortParamethers_t*)q)->fim;
   int i, j, eixo;
-  
+
   if(fim>inicio){
     i = inicio;
     j = fim;
@@ -100,5 +100,5 @@ int main(int argc, char *argv[]){
     }
   }
 
-  printf("%.6lf ", (sumptr/(threshold*CLOCKS_PER_SEC)));
+  printf("%.6lf;", (sumptr/(threshold*CLOCKS_PER_SEC)));
 }

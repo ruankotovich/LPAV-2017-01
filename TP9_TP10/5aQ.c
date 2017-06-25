@@ -89,12 +89,12 @@ int main(int argc, char *argv[]){
 
     sumptr += ((double)(pong-ping));
   }
-  
+
   if(length <= 1000){
     for(int i=0; i<length; i++){
       printf("[%d]\n", vk[i]);
     }
   }
 
-  printf("%.6lf ", (sumptr/(threshold*CLOCKS_PER_SEC)));
+  printf("%.6lf;", (sumptr/(threshold*CLOCKS_PER_SEC)));
 }
